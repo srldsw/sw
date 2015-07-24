@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<rss version="2.0">  
+<channel>
+
+      <title> Sitesworld feed</title>
+      <link> http://www.sitesworld.com/ </link>
+      <description> Explore the world! </description>
+      <language>en-us</language>
+      <docs>http://backend.userland.com/rss</docs>
+      <generator>PHP/</generator>
+	  <category> world </category>
+
+
+      <item>
+		<title> Sitesworld Guide to Nauru </title>
+		<link> http://www.sitesworld.com/Nauru/ </link>
+		<description>
+		Sitesworld Guide to Nauru and explore the quick reference Nauru sights and sounds!
+		</description>
+		<pubDate> Mon, 26 Mar 2012 02:40:34 -0400 </pubDate>
+		<guid isPermaLink="false"> sitesworld14726 </guid>
+		<author> nobody@blogger.com </author>
+		<category> Nauru </category>
+      </item>
+	  
+
+	   </channel>
+		</rss>
+	

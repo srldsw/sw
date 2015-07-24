@@ -1,0 +1,8 @@
+# not anyone below 
+
+User-agent: 
+*
+Disallow: /
+
+
+
