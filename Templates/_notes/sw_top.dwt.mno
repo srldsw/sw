@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="notes" value="this is top level template to modify header/footer/nav etc&#xD;all lower level templates (ie sw_top_pgs.dwt etc will be updated accordingly)" />
+	<infoitem key="showOnOpen" value="true" />
+</info>
