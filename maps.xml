@@ -3,17 +3,17 @@
 <channel>
 
       <title> Sitesworld Digital World Maps</title>
-      <link> http://www.sitesworld.com/ </link>
+      <link> https://www.sitesworld.com/ </link>
       <description> Full Screen Digital World Maps </description>
       <language>en-us</language>
-      <docs>http://backend.userland.com/rss</docs>
+      <docs>https://backend.userland.com/rss</docs>
       <generator>PHP/</generator>
 	  <category> world maps </category>
 
 
       <item>
 		<title> Digital Map of Algeria </title>
-		<link> http://www.sitesworld.com/Algeria/map.html </link>
+		<link> https://www.sitesworld.com/Algeria/map.html </link>
 		<description>
 		Digital Map of Algeria .
 		</description>
