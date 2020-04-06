@@ -21,8 +21,7 @@ thsBlg_img_cdn = "www.sitesworld.com/common/x/i/img/";
 ThsBlg_aT_cd = 'ra-4f5609966688479d';
 // === TOPMOST
 // 
-
-sw_as_cd = '\x63'+'a'+'-\x70\x75\x62-'+ (891588728015551+1378689803089018+3419924582255152);
+sw_as_cd = '\x63' + 'a' + '-\x70\x75\x62-' + (891588728015551 + 1378689803089018 + 3419924582255152);
 // 
 // 
 var path = document.location.pathname;
@@ -2168,14 +2167,24 @@ if (thsSiteTyp == "main_sitesworld") {
 			// 	"rh"
 			// );
 			/////// HOMPAGE DTP LU 1/1
-			asadFixId(
-				' ',
-				' ',
+			// asadFixId(
+			// 	' ',
+			// 	' ',
+			// 	"as_main_B",
+			// 	"468",
+			// 	"15",
+			// 	"8627424943",
+			// 	"9016347043" // sw_main_lu_T
+			// );
+			/// use this now...
+			asadRespId(
+				'<div style="max-width:90%;text-align:center;">',
+				'</div>',
 				"as_main_B",
-				"468",
-				"15",
-				"8627424943",
-				"9016347043" // sw_main_lu_T
+				"xyz_as_main_B",
+				"4928296247", /// 
+				"9016347043", // sw_main_lu_T 
+				"link"
 			);
 		}
 	}
