@@ -1714,7 +1714,10 @@ function mnad_async(divId, size, crid, versionId, cid) {
 
 function addthis_SW(divId, url, title, template) {
 	/**
-	- V1 - 
+	- V3 - 
+	all vars optional BUT divId 
+	template is string to determine order and choice of buttons (see below)
+	for vertical send multiple in succession: ie addthis_RRSSB('a', null, null, "~<email>~");addthis_RRSSB('a', null, null, "~<facebook>~");
 	*/
 	/// vars to set ///
 	var emailPostfix = ""; // eg " - via mysite"
@@ -1735,12 +1738,12 @@ function addthis_SW(divId, url, title, template) {
 		all_css.setAttribute("rel", "stylesheet");
 		all_css.setAttribute("type", "text/css");
 		document.getElementsByTagName("head")[0].appendChild(all_css);
-		if (document.getElementById('addthis_SWScript')) {
+		if (document.getElementById('addthis_RRSSBScript')) {
 			/////////////////////
 		} else {
 			var addthisScript = document.createElement('script');
 			addthisScript.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/rrssb/1.14.0/js/rrssb.min.js');
-			addthisScript.setAttribute('id', 'addthis_SWScript');
+			addthisScript.setAttribute('id', 'addthis_RRSSBScript');
 			document.body.appendChild(addthisScript);
 		}
 	}
@@ -1784,11 +1787,24 @@ function addthis_SW(divId, url, title, template) {
 	//// 2ND NOW REMOVE UNNEEDED ONES!
 	final_buttons = final_buttons.replace("~<email>~", "").replace("~<facebook>~", "").replace("~<twitter>~", "").replace("~<pinterest>~", "").replace("~<whatsapp>~", "");
 	var rrssbHTML = '<ul class="rrssb-buttons clearfix">' + final_buttons + '</ul>';
-	document.getElementById(divId).insertAdjacentHTML("beforeend", rrssbHTML);
+	try {
+		document.getElementById(divId).insertAdjacentHTML("beforeend", rrssbHTML);
+	} catch (e) {}
 }
 
 function addthis_a(aTid, divId, customUrlTitle, url, title, contId, inStyle, addServHtml) {
 	return;
+}
+
+function amzFromLbls(keywords, div) {
+	// v2
+	// req iframeResizer.min.js
+	$('#' + div).html(
+		'<iframe onload="iFrameResize()" class="iframeresize_class" style="display:block;width:99%" src="https://' + thsBlg_dyn_catcher + '?s=amz&a=' + keywords + '" scrolling="no" frameborder="0" border="0" ></iframe>' +
+		// '<iframe style="height:450px;width:' + (!detectmob() ? '400' : '200') + 'px;overflow:hidden;display:block" src="https://'+thsBlg_dyn_catcher+'?s=amz&a=' + keywords + '" scrolling="no" frameborder="0" border="0" ></iframe>' +
+		''
+	);
+	// 
 }
 
 function sw_disqus() {
@@ -2045,6 +2061,8 @@ function gCSE(cseId, divId, phText, target) {
 		s.parentNode.insertBefore(gcse, s);
 	})();
 }
+//////////////// refugee funcs (keep or del from html src!) ////////
+function addths_item() {}
 // 
 // 
 // 
@@ -2385,6 +2403,13 @@ if (thsSiteTyp == "main_sitesworld") {
 			// 	"r"
 			// );
 		}
+		///////////////////// country AMZ AFF VIA /c/ /////////
+		$('#amcont').prepend(' <div id="ebRSBtm_2"></div>');
+		amzFromLbls('books about ' + sw_c_na, "ebRSBtm_2");
+		$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js").done(function() {
+			$('.iframeresize_class').iFrameResize();
+		});
+		///////////////////// country AMZ AFF VIA /c/ /////////
 	}
 	// 
 	// HOLIDAYS
@@ -2776,7 +2801,6 @@ if (thsSiteTyp == "main_sitesworld") {
 // 
 if (thsSiteTyp == "dyn_catcher") {
 	// 
-	$('body').prepend('<div id="crecdiv"></div>');
 	// ///////////////
 	if (qs.get("s") == "amz") {
 		var keywords = (qs.contains("a")) ? qs.get("a") : thsBlg_amz_defKW;
@@ -2795,6 +2819,7 @@ if (thsSiteTyp == "dyn_catcher") {
 	}
 	//////////////////////  FDBK ////////////////////////
 	if (qs.get("s") == "fdbk") {
+		$('body').prepend('<div id="crecdiv"></div>');
 		// 
 		// 
 		////////////// <GDBSFRM 2/2 :: FORM> //////////////////////// 
