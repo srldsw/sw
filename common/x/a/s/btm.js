@@ -2878,8 +2878,8 @@ if (thsSiteTyp == "main_sitesworld") {
 			// affLocalize(); // on if any eb or amz aff on
 			// $('#ldngPrgssBar').remove();  // nt wrkng see above
 			// 
-			// 
-			addthis_SW("addthis_async_receiver");
+			// OFF FOR NOW! FIX THIS HIDING GOOG SEARCHBOX BEHIND!
+			// addthis_SW("addthis_async_receiver");
 			// 
 			$(window).on("load", function() {
 				// 

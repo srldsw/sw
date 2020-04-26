@@ -1145,12 +1145,12 @@ color: inherit;
 }*/
 
 #flag_cont {
-  width: auto; /* auto for responsive! */
+  width: 99%; /* auto for responsive! */
 }
 
 #as_flag_incont img {
   height: auto;
-  width: auto;
+  width: 99%;
 }
 
 #flag_cont h2,
