@@ -1269,10 +1269,72 @@ function loadjs(filename) {
 	}
 }
 
+function getScript(source, callback) {
+	// no-jquery getscript  
+	var script = document.createElement('script');
+	var prior = document.getElementsByTagName('script')[0];
+	script.async = 1;
+	script.onload = script.onreadystatechange = function(_, isAbort) {
+		if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState)) {
+			script.onload = script.onreadystatechange = null;
+			script = undefined;
+			if (!isAbort) {
+				if (callback) callback();
+			}
+		}
+	};
+	script.src = source;
+	prior.parentNode.insertBefore(script, prior);
+}
+
+function getWindowHeight() {
+	if (window.innerHeight) {
+		return window.innerHeight;
+	}
+	if (document.body.clientHeight) {
+		return document.body.clientHeight;
+	}
+	if (document.documentElement && document.documentElement.clientHeight) {
+		return document.documentElement.clientHeight;
+	}
+	return 700;
+}
+
+function getWindowWidth() {
+	if (window.innerWidth) {
+		return window.innerWidth;
+	}
+	if (document.body.clientWidth) {
+		return document.body.clientWidth;
+	}
+	if (document.documentElement && document.documentElement.clientWidth) {
+		return document.documentElement.clientWidth;
+	}
+	return 1000;
+}
+
 function noBS_ldngPrgssBar() {
 	///// v1 
 	//// req .gif 
 	return '<div id="ldngPrgssBar"> <div style="margin:10px auto; width:250px;"><img style=";height:16px;width:99%" src="//www.sitesworld.com/common/x/i/img/prgrss.gif"/></div> </div>';
+}
+
+function getScript(source, callback) {
+	// no-jquery getscript  
+	var script = document.createElement('script');
+	var prior = document.getElementsByTagName('script')[0];
+	script.async = 1;
+	script.onload = script.onreadystatechange = function(_, isAbort) {
+		if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState)) {
+			script.onload = script.onreadystatechange = null;
+			script = undefined;
+			if (!isAbort) {
+				if (callback) callback();
+			}
+		}
+	};
+	script.src = source;
+	prior.parentNode.insertBefore(script, prior);
 }
 
 function detectmob() {
@@ -2603,59 +2665,8 @@ if (thsSiteTyp == "main_sitesworld") {
 	// 
 	//
 	if (swpg == "sw_mappage") {
-		function getWindowHeight() {
-			if (window.innerHeight) {
-				return window.innerHeight;
-			}
-			if (document.body.clientHeight) {
-				return document.body.clientHeight;
-			}
-			if (document.documentElement && document.documentElement.clientHeight) {
-				return document.documentElement.clientHeight;
-			}
-			return 700;
-		}
-
-		function getWindowWidth() {
-			if (window.innerWidth) {
-				return window.innerWidth;
-			}
-			if (document.body.clientWidth) {
-				return document.body.clientWidth;
-			}
-			if (document.documentElement && document.documentElement.clientWidth) {
-				return document.documentElement.clientWidth;
-			}
-			return 1000;
-		}
-
 		function load() {
 			resize();
-			if (GBrowserIsCompatible()) {
-				var map = new GMap2(document.getElementById("map"));
-				map.addControl(new GLargeMapControl());
-				map.addControl(new GMapTypeControl());
-				map.enableScrollWheelZoom();
-				var geocoder = new GClientGeocoder();
-
-				function showAddress(address) {
-					geocoder.getLatLng(address, function(point) {
-						if (!point) {
-							alert(address + " not found");
-						} else {
-							map.setCenter(point, js_zoomlevel);
-							var marker = new GMarker(point);
-							// <?= $markercode ?>
-							if (sw_c_ur == 'The_World') {
-								//
-							} else {
-								map.addOverlay(marker);
-							}
-						}
-					});
-				}
-				showAddress(js_name);
-			}
 		}
 
 		function resize() {
@@ -2683,8 +2694,105 @@ if (thsSiteTyp == "main_sitesworld") {
 			// }
 		}
 		//
-		load();
+		// load();
 		resize();
+		//////////// WIP LFLT MPS ////////////////
+		var mapOn = "yes";
+		if (mapOn == "yes") {
+			function fltrThsOnly(code, data) {
+				//// v1 match properties.A3 and only make it available (filter)
+				return data.filter(
+					function(data) {
+						return data.properties.A3 == code
+					}
+				);
+			}
+			// 
+			function drawMap(json, type) {
+				// var tiles = 'https://maps.wikimedia.org/osm-intl/${z}/${x}/${y}.png';
+				var tiles = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+				var attrib = '&copy; <a target="_blank" rel="nofollow" href="https://www.openstreetmap.org/fixthemap">OpenStreetMap</a> contributors';
+				// 
+				if (document.querySelector('link[href*="leaflet.css"]') === null) {
+					appendHTMLByTag("head", '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.css"/>');
+				}
+				$.getScript("https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.js").done(function() {
+					// 
+					if (type == "world") {
+						////////// ENTIRE WORLD
+						var map = L.map('map'),
+							osmUrl = tiles,
+							osmAttribution = attrib;
+						L.tileLayer(osmUrl, {
+							attribution: osmAttribution,
+							noWrap: true //// no repitition
+						}).addTo(map);
+						map.fitBounds([
+							[-90, -180],
+							[90, 180]
+						]);
+						map.attributionControl.setPrefix('');
+						map.setZoom(2); /// this to zoom in to prevent empty canvas
+						////////////
+					} else {
+						/////////// INDIV COUNTRIES
+						var map = L.map('map'),
+							osmUrl = tiles,
+							osmAttribution = attrib;
+						L.tileLayer(osmUrl, {
+							attribution: osmAttribution
+						}).addTo(map);
+						var polygon = L.geoJson(json).addTo(map);
+						polygon.setStyle({
+							/// fill ///
+							fillColor: '#ffffff',
+							fillOpacity: 0,
+							/// stroke ///
+							stroke: true,
+							color: '#cc0000',
+							weight: 2,
+							opacity: 0, // 0.0-1.0
+							dummy: 0
+						}); // https://leafletjs.com/reference-1.6.0.html#path-option
+						map.attributionControl.setPrefix('');
+						map.fitBounds(polygon.getBounds());
+					}
+					// 
+				});
+			}
+			// 
+			// IF USING SMALL INDIVIDUAL JSON FOR EACH COUNTRY
+			/// testing
+			// a3_code = "MDG";
+			$.getJSON("/common/x/a/s/mpjson/" + a3_code + ".json", function(json) {
+				drawMap(json, "individual");
+			}).fail(function(a, b, c) {
+				drawMap("", "world");
+				// $( "div.log" ).text( "Triggered ajaxError handler." );
+			});
+			// IF USING ONE BIG JSON WITH ALL
+			/*
+			$.ajax({
+				method: "GET",
+				dataType: "json",
+				cache: true,
+				ifModified: true, // only fetch if modified else use cache ver, 'guarantees' caching
+				url: "/common/x/a/s/countries-land-10km.geo.json",
+				headers: {
+					"Content-Encoding": "gzip"
+				}
+			})
+				.done(function(json) {
+					//// gt-all-cntry-dta-frm-jsn-and-fltr-only-prt-rqd-for-ths-cntry-usng-func
+					//// A3 code containing node is `properties.A3` in `features` node within json, rest is handled by leaflet's L.geoJson
+					var found = fltrThsOnly('MDG', json.features);
+					// console.log(found);
+					// drawMap(found);
+				});
+				*/
+			// 
+			// 
+		}
 	}
 	// 
 	// 
@@ -2712,7 +2820,7 @@ if (thsSiteTyp == "main_sitesworld") {
 			}
 			// 
 			// create fdbk link for GDBSFRM
-			$('body').append('<div id="fdbk" style="box-shadow: 0 0 5px #555555;opacity:0.75;background-color: #008000; bottom: 10px; font: 12px/1em sans-serif; padding: 5px 10px; position: fixed; right: 10px;"><a id="fdbk_btn" style="color:#fff;display:block;height:100%;width:100%;cursor:pointer">Feedback</a></div>');
+			$('body').append('<div id="fdbk" style="box-shadow: 0 0 5px #555555;opacity:0.75;background-color: #008000; bottom: 20px; font: 12px/1em sans-serif; padding: 5px 10px; position: fixed; right: 20px;z-index:999;/* z-index for mappages */"><a id="fdbk_btn" style="color:#fff;display:block;height:100%;width:100%;cursor:pointer">Feedback</a></div>');
 			// 
 			////////////// <GDBSFRM 1/2 :: LINK> //////////////////////// 
 			// v1 
@@ -2770,8 +2878,8 @@ if (thsSiteTyp == "main_sitesworld") {
 			// affLocalize(); // on if any eb or amz aff on
 			// $('#ldngPrgssBar').remove();  // nt wrkng see above
 			// 
-			// 
-			addthis_SW("addthis_async_receiver");
+			// OFF FOR NOW! FIX THIS HIDING GOOG SEARCHBOX BEHIND!
+			// addthis_SW("addthis_async_receiver");
 			// 
 			$(window).on("load", function() {
 				// 
