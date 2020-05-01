@@ -21,7 +21,9 @@ thsBlg_img_cdn = "www.sitesworld.com/common/x/i/img/";
 ThsBlg_aT_cd = 'ra-4f5609966688479d';
 // === TOPMOST
 // 
-sw_as_cd = '\x63' + 'a' + '-\x70\x75\x62-' + (891588728015551 + 1378689803089018 + 3419924582255152);
+sw_as_cd = '\x63' + 'a' + '-\x70\x75\x62-' + (
+	(891588728015551) + (1378689803089018) + (3419924582255152)
+);
 // 
 // 
 var path = document.location.pathname;
@@ -2356,28 +2358,28 @@ if (thsSiteTyp == "main_sitesworld") {
 		// === DTP ===
 		if (!detectmob()) {
 			////// DTP AD 1/1
-			// asadFixId(
-			// 	' ',
-			// 	' ',
-			// 	"as_tm_pg_R",
-			// 	"160",
-			// 	"600",
-			// 	"9126557442",
-			// 	"3831638056" // sw_tm_pgs_B
-			// );
+			asadFixId(
+				' ',
+				' ',
+				"as_tm_pg_R",
+				"160",
+				"600",
+				"9126557442",
+				"3831638056" // sw_tm_pgs_B
+			);
 			////////// DTP AFF 1/1
-			// insertAfterHTML('as_tm_pg_R','<div id="asAff_1"></div>');
+			// aff is now jq (see cdStyle )
 			///////// DTP LU 2/2
-			// appendHTMLByClass('tmtd1', '<div id="tim_lu_1"></div>');
-			// asadRespId(
-			// 	'<div style="width:100%;margin:10px 0;height:100px;">',
-			// 	'</div> ',
-			// 	"tim_lu_1",
-			// 	"xyz_tim_lu_1",
-			// 	"4928296247",
-			// 	"5928739844", // sw_tm_pgs_lu_1
-			// 	"link"
-			// );
+			appendHTMLByClass('tmtd1', '<div id="tim_lu_1"></div>');
+			asadRespId(
+				'<div style="width:100%;margin:10px 0;height:100px;">',
+				'</div> ',
+				"tim_lu_1",
+				"xyz_tim_lu_1",
+				"4928296247",
+				"5928739844", // sw_tm_pgs_lu_1
+				"link"
+			);
 			// 
 		}
 		// === MOB ===
@@ -2468,7 +2470,7 @@ if (thsSiteTyp == "main_sitesworld") {
 		///////////////////// country AMZ AFF VIA /c/ /////////
 		$('#amcont').prepend(' <div id="ebRSBtm_2"></div>');
 		var bb = 'books about ' + sw_c_na;
-		amzFromLbls( bb.replace(/\s+/igm,"%20"), "ebRSBtm_2");
+		amzFromLbls(bb.replace(/\s+/igm, "%20"), "ebRSBtm_2");
 		$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js").done(function() {
 			$('.iframeresize_class').iFrameResize();
 		});

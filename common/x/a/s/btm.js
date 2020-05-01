@@ -1421,6 +1421,33 @@ function amzNtv_sync(ad_mode, design, search_phrase, tracking_id, linkid, title,
 		'');
 }
 
+function epnSmPl(divId, adID, kw = "", categ = "", divWidth = 300, divHeight = divWidth * 1.3) {
+	// v1
+	// categ : "1234 | 4567" or "" for default set at epn pg
+	// kw or "" - do -
+	//
+	// prevent too tall
+	divHeight = ($(window).width() >= $(window).height()) ? 300 : divHeight;
+	if (document.getElementById(divId)) {
+		try {
+			$.getScript("https://epnt.ebay.com/static/epn-smart-tools.js").done(function() {
+				// make width always container's or ATLEAST 300!
+				var desiredWidth = $('#' + divId).width() - 12;
+				var usableWidth = (desiredWidth < 300 || divWidth < 300) ? 300 : desiredWidth;
+				// console.log ( usableWidth + ' ' + divHeight)
+				$('#' + divId).html(
+					'<div style="outline:solid 1px #aaa;max-width:99%;overflow:hidden;">' + // epn won't show if less than 300px! only way to crop for smaller widths
+					'<div id="epncont_' + divId + '" style="width:' + usableWidth + 'px;height:' + divHeight + 'px;">' +
+					'<ins data-keyword="' + kw + '" data-category-id="' + categ + '" class="epn-placement" data-config-id="' + adID + '"></ins>' +
+					'</div> </div>' +
+					'');
+			});
+		} catch (e) {
+			console.log('no epnSmPl');
+		}
+	}
+}
+
 function asadFixClass(prefix, postfix, divClass, width, height, slot, channel) {
 	//v3 (span not div)
 	if (!document.getElementsByClassName(divClass)[0]) {
@@ -2800,19 +2827,39 @@ if (thsSiteTyp == "main_sitesworld") {
 	// 
 	// 
 	// 
+	// 
+	// ///// jq document ready
+}
+// 
+///////////////////////   /MAIN SW //////////////////////////////
+// 
+// 
+/////////////////// JQ READY EXEC //////////////////////
+if (typeof jQuery == 'undefined') {} else {
 	$(document).ready(function() {
 		// 
 		// 
 		//////////   MAIN SW ///////////////
 		if (thsSiteTyp == "main_sitesworld") {
 			// 
-			//////////////   LAST-MOST   ////////////////////
 			// 
+			///////// country ////////////
+
+			////// epn aff 1/1
+			if (swpg == "sw_country") {
+				epnSmPl(
+				"js_bw_div_3", // divId
+				"5eac29295da2926691a52a2b", // SmPl adId
+				sw_c_ur
+			);
+
+			}
+			/////////////// time all ///////////
 			// disclo
 			if (swpg.match(/time_/)) {
 				insertBeforeHTML('top_footer', ' <div style="margin:5px;padding:5px;"> <hr/> <p> <i><b>Disclosure:</b> </i> <i>As Amazon Associate, we earn from qualifying purchases.</i> <i>As an Ebay associate, we earn from qualifying purchases.</i> </p> </div> ');
 			}
-			// === affeb  ====
+			///////////// time pages ////////
 			if (swpg.match(/sw_time_pages/)) {
 				// amz aff 1/1
 				var cdStyle = (detectmob()) ? 'width:90%;' : 'width:160px;';
@@ -2898,14 +2945,9 @@ if (thsSiteTyp == "main_sitesworld") {
 		// 
 		// 
 	});
-	// 
-	// ///// jq document ready
 }
 // 
-///////////////////////   /MAIN SW //////////////////////////////
-// 
-// 
-// 
+/////////////////// /JQ READY //////////////////////
 // 
 // // 
 /////////////////    DYN_CATCHER   ///////////////////
