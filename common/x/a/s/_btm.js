@@ -2467,7 +2467,8 @@ if (thsSiteTyp == "main_sitesworld") {
 		}
 		///////////////////// country AMZ AFF VIA /c/ /////////
 		$('#amcont').prepend(' <div id="ebRSBtm_2"></div>');
-		amzFromLbls('books about ' + sw_c_na, "ebRSBtm_2");
+		var bb = 'books about ' + sw_c_na;
+		amzFromLbls( bb.replace(/\s+/igm,"%20"), "ebRSBtm_2");
 		$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js").done(function() {
 			$('.iframeresize_class').iFrameResize();
 		});
@@ -2832,6 +2833,8 @@ if (thsSiteTyp == "main_sitesworld") {
 			var gaCat = 'fdbk'; // ga categ for ga_evCatVal
 			var gaVal = 'inf_fdbkBtn: ' + (swpg || ''); // ga val for ga_evCatVal
 			// / -------------- VARS TO CHANGE -------------
+			// create fdbk link for GDBSFRM
+			$('body').append('<div id="fdbk" style="box-shadow: 0 0 5px #555555;opacity:0.75;background-color: #008000; bottom: 20px; font: 12px/1em sans-serif; padding: 5px 10px; position: fixed; right: 20px;z-index:999;/* z-index for mappages */"><a id="fdbk_btn" style="color:#fff;display:block;height:100%;width:100%;cursor:pointer">Feedback</a></div>');
 			// 
 			function fdbk_openClose() {
 				if (document.getElementById('fdbk_window')) {
@@ -2840,7 +2843,7 @@ if (thsSiteTyp == "main_sitesworld") {
 					var dimn = (detectmob()) ? 80 : 70;
 					$('body').append(
 						'<div id="fdbk_window" class="fdbk_window" style="width:' + viewport(dimn, 'vw') + 'px;height:' + viewport(dimn, 'vh') + 'px;background-color:#aaa;position:fixed;left:50%;top:50%;margin-top:-' + (viewport(dimn, 'vh') / 2) + 'px;margin-left:-' + (viewport(dimn, 'vw') / 2) + 'px;outline:solid 3px #aaa;box-shadow:0 0 10px #000;z-index:2147483647" >' +
-						'<div style="width:20px;height:20px;position:absolute;right:0;color:white;cursor:pointer;" id="fdbk_close"><img style="width:100%;height:100%" src="https://www.google.com/intl/en_us/mapfiles/close.gif"/></div>' +
+						'<div style="width:20px;height:20px;position:absolute;right:0;color:white;cursor:pointer;" id="fdbk_close"><img style="width:100%;height:100%" src="data:image/png;base64,R0lGODlhDgANAIAAAP///6CgpCH5BAAAAAAALAAAAAAOAA0AAAIfjI8Jy73mIoAzNErrs/se72Qdg4BjhnGnKo3tlsRGAQA7"/></div>' +
 						'<iframe style="height:100%;width:100%;display:block;background:white;" src="' + gdbsfrm_url + '" scrolling="' + scrolling + '" frameborder="0" border="0" ></iframe>' +
 						'<div>'
 					);
