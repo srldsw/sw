@@ -19,9 +19,9 @@ thsBlg_amz = {
 };
 thsBlg_amz_defKW = "time";
 thsBlg_epn = "5337983353";
-thsBlg_dyn_catcher = "www.sitesworld.com/x/str/c/";
+thsBlg_dyn_catcher = "www.sitesworld.com/common/x/str/c/";
 ThsBlg_aT_cd = '';
-thsBlg_img_cdn = "www.sitesworld.com/x/str/i/";
+thsBlg_img_cdn = "www.sitesworld.com/common/x/str/i/";
 thsBlg_gasJsnPrx = "AKfycbxlgCraLy0Gg6SffuTNQ4F_hrs9duFuw_e1QNfU5jZAWUYqD_IY";
 // 
 // 
