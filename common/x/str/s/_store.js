@@ -1016,7 +1016,7 @@ if (thsSiteTyp == "store") {
 /////////////////    DYN_CATCHER   ///////////////////
 // 
 if (thsSiteTyp == "dyn_catcher") {
-	var keywords = (qs.contains("a")) ? qs.get("a") : 'world time';
+	var keywords = (qs.contains("a")) ? qs.get("a") : 'world';
 	keywords = decodeURIComponent(keywords);
 	if (qs.get("s") == "amz") {
 		amzNtv_sync(
