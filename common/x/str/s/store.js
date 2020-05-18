@@ -15,9 +15,15 @@ thsBlg_amz = {
 	'ca': 'sitesworld-20',
 	'co.uk': 'sitesworld-21',
 	'de': 'sitesworldde-21',
-	'fr': 'sitesworldfr04-21'
+	'fr': 'sitesworldfr04-21',
+	'def_kw': 'time',
+	'def_kw_2': 'time',
+	'def_cat': 'Watches',
+	'def_cat_2': 'All',
+	'def_node': '', //'9003130011',
+	'def_node_2': '', //'9003130011',
 };
-thsBlg_amz_defKW = "time";
+
 thsBlg_epn = "5337983353";
 thsBlg_dyn_catcher = "www.sitesworld.com/common/x/str/c/";
 ThsBlg_aT_cd = '';
@@ -354,7 +360,7 @@ function addthisN(divId, url, title, template) {
  
 	*/
 	/// vars to set ///
-	var svgWH='width="16" height="16"'; // to prvnt ovrsize splsh b4 load
+	var svgWH = 'width="16" height="16"'; // to prvnt ovrsize splsh b4 load
 	var emailPostfix = ""; // eg " - via mysite"
 	var pageImgUrl = "";
 	try {
@@ -624,7 +630,11 @@ function epnRs(gasID, country, kw, divId, cmpId, rand, numItems, rows, cols, ite
 						var desc = el.find("description").text();
 						var link = el.find("link").text().replace(/http\:/, 'https\:') || '';
 						// 
-						var thumbnail = desc.match(/src\=['"](htt[^"]*\.jpg)['"]/)[1].replace(/http\:/, 'https\:') || '';
+						try {
+							var thumbnail = desc.match(/src\=['"](htt[^"]*\.jpg)['"]/)[1].replace(/http\:/, 'https\:');
+						} catch (e) {
+							var thumbnail = "";
+						}
 						//// prevent items with no images:
 						if (thumbnail.match(/04040_0\.jpg/)) {
 							return true; // no continue for jq .each()!!
@@ -670,9 +680,9 @@ function amzAdKW(div, arr_amzNtv_sync_options) {
 		$('.iframeresize_class').iFrameResize();
 	});
 }
-// -- amzAdKW 1/3 (in main script)
-function amzNtv_sync(ad_mode, design, numRows, search_phrase, tracking_id, linkid, title, default_category) {
-	// v4
+// -- amzAdKW 2/3 (in main script)
+function amzNtv_sync(ad_mode, design, numRows, search_phrase, tracking_id, linkid, title, default_category, browseNode) {
+	// v5
 	// ad_mode: "search"||"";
 	// design: "text_links"||"grid";
 	// 
@@ -680,6 +690,7 @@ function amzNtv_sync(ad_mode, design, numRows, search_phrase, tracking_id, linki
 	var numRows = (numRows === '') ? "5" : numRows;
 	var adDesign = (design == 'text_links') ? 'amzn_assoc_rows = "' + numRows + '"; amzn_assoc_design = "text_links";' : 'amzn_assoc_enable_interest_ads = "true";';
 	var adCategory = (default_category === '') ? 'All' : default_category;
+	var def_browseNode = (browseNode === '') ? '' : 'amzn_assoc_default_browse_node = "' + browseNode + '";';
 	// 
 	document.write(
 		'<script>' +
@@ -694,28 +705,25 @@ function amzNtv_sync(ad_mode, design, numRows, search_phrase, tracking_id, linki
 		'amzn_assoc_ad_mode = "' + adMode + '";' +
 		'amzn_assoc_default_category = "' + adCategory + '";' + // *
 		'amzn_assoc_default_search_phrase = "' + search_phrase + '";' +
-		// for text_links only
-		adDesign +
-		// for text_links only
+		def_browseNode +
+		adDesign + // for text_links only
 		'</script>' +
 		'<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US"></script>' +
 		'');
 }
 
-function amzFromLbls(keywords, div, type) {
-	// v3 
-	if (typeof type == "undefined") {
-		var type = "grid";
-	}
+function amzFromLbls(keywords, cat, type, div) {
+	// v4 
 	amzAdKW(div, [
 		"search",
 		type, // "text_links"||"grid"
 		"3", // num of rows if text_links above, eg "3" (def:"5")
-		keywords, // search phrase
+		keywords, // keywords, // search phrase
 		thsBlg_amz.com, // aff id
 		'064830' + '62a' + '172ded549d69' + 'e' + '1886790a34', // link id (def or create new in dashboard)
 		"", // title (def: blank)
-		"" // category (def: All)
+		cat, // category (def: All)
+		thsBlg_amz.def_node, // browseNode (opt, if category given)
 	]);
 }
 
@@ -1038,7 +1046,7 @@ if (thsSiteTyp == "dyn_catcher") {
 	// -- amzAdKW 1/3 (in main script)
 	if (qs.get("s") == "amz") {
 		var a = JSON.parse(decodeURIComponent(qs.get("a")));
-		amzNtv_sync(a[0], a[1], a[2], a[3], a[4], a[5], a[6]);
+		amzNtv_sync(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
 		$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.contentWindow.min.js")
 			.done(function() {});
 	}
@@ -1055,22 +1063,25 @@ $(window).on("load", function() {
 	// 
 	if (thsSiteTyp == "store") {
 		// 
+
 		if (ThsBlg_pg == 'itempage') {
 			// --- AFF IN SIDEBAR
 			// DTP STR AFF SB
-			if (!detectmob()) {
-				$('#rightbar').prepend('<div  class="ldng_16_3x" id="amzSB_T"></div>');
-				amzFromLbls(thsBlg_amz_defKW, "amzSB_T");
-			}
+			// if (!detectmob()) {
+			$('#rightbar').prepend('<div  class="ldng_16_3x" id="amzSB_T"></div>');
+			amzFromLbls(thsBlg_amz.def_kw, thsBlg_amz.def_cat, ((!detectmob()) ? "grid" : "text_links"),
+				"amzSB_T");
+			// }
 			// ---AFF FROM LABLES
 			$('.blogger-labels').before('<hr/><h4>If you liked it, ALSO TRY:</h4><hr/><div  class="ldng_16_3x"  id="ebRSBtm_1"></div><hr/><div class="ldng_16_3x"  id="ebRSBtm_2"></div><hr/>');
 			var kw = $('.blogger-labels').text().replace(/\s+/igm, " ").trim().replace(/(labels\:)/igm, "").trim();
+			// console.log(kw);
 			if ($('.postbody h3 a').attr('href').match(/amazon\./)) {
 				kw = encodeURIComponent(kw.replace(/, /g, " ").trim());
 				epnFromLbls(kw, "ebRSBtm_1");
-				amzFromLbls(kw, "ebRSBtm_2");
+				amzFromLbls(kw, thsBlg_amz.def_cat_2, "grid", "ebRSBtm_2");
 			} else {
-				amzFromLbls(kw, "ebRSBtm_1");
+				amzFromLbls(kw, thsBlg_amz.def_cat_2, "grid", "ebRSBtm_2");
 				epnFromLbls(kw, "ebRSBtm_2");
 			}
 			// ---/AFF FROM LABLES
