@@ -23,7 +23,10 @@ thsBlg_amz = {
 	'def_node': '', //'9003130011',
 	'def_node_2': '', //'9003130011',
 };
-
+thsBlg_as = '\x63' + 'a' + '-\x70\x75b-' + (567810827969404 + 1516760576722639 + 3605631708667678);
+var ad_Id_resp = '6312455445';
+var ad_Id_fixed = '0693467584';
+var lu_Id_resp = '4928296247';
 thsBlg_epn = "5337983353";
 thsBlg_dyn_catcher = "www.sitesworld.com/common/x/str/c/";
 ThsBlg_aT_cd = '';
@@ -287,15 +290,24 @@ function insertAfterHTMLByClass(divClass, html) {
 	}
 }
 
+function insertAfterHTML(divId, html) {
+	if (!document.getElementById(divId)) {
+		// 
+	} else {
+		document.getElementById(divId).insertAdjacentHTML("afterend", html);
+	}
+}
+
 function toTitleCase(str) {
 	return str.replace(/\w\S*/g, function(txt) {
 		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 	});
 }
 ///// MODDED FOR AS_CD
-function asadRespId(prefix, postfix, divId, idTxt, slot, channel, orient, divWidth, divHeight) {}
-
-function __asadRespId(prefix, postfix, divId, idTxt, slot, channel, orient, divWidth, divHeight) {
+function asadRespId(prefix, postfix, divId, idTxt, slot, channel, orient, divWidth, divHeight) {
+	if (bnndQry == "yes") {
+		return;
+	}
 	// v10 - bugfix
 	if (!document.getElementById(divId)) {
 		// 
@@ -333,11 +345,10 @@ function __asadRespId(prefix, postfix, divId, idTxt, slot, channel, orient, divW
 				'.adslot_' + idTxt + ' { width: ' + divWidth + '; height:' + divHeight + '; }' +
 				'</style>' +
 				prefix +
-				'<span  class="ldng_16_3x"  style="display:block;max-width:' + divWidth + ';max-height:' + divHeight + '">' +
+				'<span class="ldng_16_3x" style="display:block;max-width:' + divWidth + ';max-height:' + divHeight + '">' +
 				' <ins class="adsbygoogle adslot_' + idTxt + '" ' +
 				' style="display:block" ' +
-			////////////// gen new for sitesworld!!!!
-			' data-ad-client="' + '\x63' + 'a' + '-\x70\x75b-' + (00 + 00 + 00) + '" ' +
+				' data-ad-client="' + thsBlg_as + '" ' +
 				' data-ad-slot="' + slot + '" ' +
 				' data-ad-format="' + a + '"></ins> ' +
 				'</span>' +
@@ -351,6 +362,28 @@ function __asadRespId(prefix, postfix, divId, idTxt, slot, channel, orient, divW
 		} catch (e) {
 			return true;
 		}
+	}
+}
+
+function asadFixId(prefix, postfix, divId, width, height, slot, channel) {
+	//v3 (span not div)
+	if (!document.getElementById(divId)) {
+		// 
+	} else {
+		document.getElementById(divId).innerHTML = '' +
+			prefix +
+			' <ins class="adsbygoogle" ' +
+			' style="display:inline-block;' +
+			' width:' + width + 'px;' +
+			' height:' + height + 'px" ' +
+			' data-ad-client="' + thsBlg_as + '" ' +
+			' data-ad-slot="' + slot + '"></ins>' +
+			postfix;
+		(adsbygoogle = window.adsbygoogle || []).push({
+				params: {
+					google_ad_channel: channel
+				}
+			});
 	}
 }
 
@@ -958,11 +991,9 @@ if (thsSiteTyp == "store") {
 	// --- AS
 	//   resp ad: , resp lu: 
 	//// STORE BOTH MAINPAGE+ITEMPAGE BOTH DTP+MOB
-	var ad_Id_resp = '';
-	var lu_Id_resp = '';
 	//// STORE CHANNELS
-	var ad_Channel = (ThsBlg_pg == 'mainpage') ? '' : '';
-	var lu_Channel = (ThsBlg_pg == 'mainpage') ? '' : '';
+	var ad_Channel = (ThsBlg_pg == 'mainpage') ? '2715870640' : '2715870640';
+	var lu_Channel = (ThsBlg_pg == 'mainpage') ? '3757221042' : '3757221042';
 	//// STORE BOTH MAINPAGE+ITEMPAGE LINKU ON DTP SIDEBAR
 	var a = !detectmob() ? prependHTML('leftbar', '<div style="max-width:300px ; max-height:600px; min-height:100px; margin-bottom:10px;"><div id="as_sb1"></div></div>') : '';
 	//// not now
@@ -981,6 +1012,17 @@ if (thsSiteTyp == "store") {
 		insertAfterHTMLByClass('postbody', sideBysideLU);
 	}
 	if (ThsBlg_pg == 'itempage') {
+		/////////// FIXED ON BOTH MOB+DTP 
+		insertAfterHTML('cse_container', '<div id="as_itmpgTop" style="width:300px;height:90px;margin:0 auto;"></div>');
+		asadFixId(
+			'',
+			'',
+			"as_itmpgTop",
+			"300",
+			"90",
+			ad_Id_fixed,
+			ad_Channel
+		);
 		insertBeforeHTMLByClass('blogger-labels', sideBysideLU);
 	}
 	//// not now
@@ -1063,7 +1105,6 @@ $(window).on("load", function() {
 	// 
 	if (thsSiteTyp == "store") {
 		// 
-
 		if (ThsBlg_pg == 'itempage') {
 			// --- AFF IN SIDEBAR
 			// DTP STR AFF SB
