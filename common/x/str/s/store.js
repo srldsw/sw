@@ -28,6 +28,7 @@ var ad_Id_resp = '6312455445';
 var ad_Id_fixed = '0693467584';
 var lu_Id_resp = '4928296247';
 thsBlg_epn = "5337983353";
+thsBlg_epn_epnSmPl = "605f12b36c98752d0e2ac45f"; //// ad id of epn smrt plcmnt
 thsBlg_dyn_catcher = "www.sitesworld.com/common/x/str/c/";
 ThsBlg_aT_cd = '';
 thsBlg_img_cdn = "www.sitesworld.com/common/x/str/i/";
@@ -541,8 +542,8 @@ function tablify(html_array, rows, cols, bord) {
 	return a + b + c;
 }
 
-function epnSmPl(divId, adID, kw = "", categ = "", divWidth = 300, divHeight = divWidth * 1.3) {
-	// v1
+function epnSmPl(divId, adID, kw = "", categ = "", divWidth = 300, divHeight = 250) {
+	// v2
 	// categ : "1234 | 4567" or "" for default set at epn pg
 	// kw or "" - do -
 	//
@@ -556,7 +557,7 @@ function epnSmPl(divId, adID, kw = "", categ = "", divWidth = 300, divHeight = d
 				var usableWidth = (desiredWidth < 300 || divWidth < 300) ? 300 : desiredWidth;
 				// console.log ( usableWidth + ' ' + divHeight)
 				$('#' + divId).html(
-					'<div style="outline:solid 1px #aaa;max-width:99%;overflow:scroll;">' + // epn won't show if less than 300px! only way to crop for smaller widths
+					'<div style="outline:solid 1px #aaa;max-width:99%;overflow:hidden;">' + // epn won't show if less than 300px! only way to crop for smaller widths
 					'<div id="epncont_' + divId + '" style="width:' + usableWidth + 'px;height:' + divHeight + 'px;">' +
 					'<ins data-keyword="' + kw + '" data-category-id="' + categ + '" class="epn-placement" data-config-id="' + adID + '"></ins>' +
 					'</div> </div>' +
@@ -569,48 +570,8 @@ function epnSmPl(divId, adID, kw = "", categ = "", divWidth = 300, divHeight = d
 }
 
 function epnFromLbls(keywords, div) {
-	// kaput
-	// v6 -  gasJsnPrx
-	// insrts b4 lbls 4 epn rss itms using lbls txt
-	// REQ jq,epnRs,tablify
-	// 
-	// 
-	////////// --------- OPT 1  USING ebRS -------------
-	function ebRS(tld) {
-		epnRs(
-			thsBlg_gasJsnPrx,
-			tld,
-			keywords,
-			div,
-			thsBlg_epn,
-			'',
-			4, // numItems
-			2, // rows
-			2, // cols
-			'<a rel="nofollow" target="_blank" href="___LINK___"><b style="font-size:' + ((window.innerWidth > 360) ? '14' : '11') + 'px;line-height:1em;display:block;">___TITLE___</b><img src="___THUMBNAIL___"/></a>' // itemTemplate
-		);
-	}
-	// 
-	$.ajax({
-		method: "GET",
-		dataType: "json",
-		cache: true,
-		url: "https://freegeoip.app/json/" // new 11/18
-	}).done(function(json) {
-		try {
-			var strTLD = json.country_code || '';
-		} catch (e) {}
-		ebRS(strTLD);
-	}).fail(function(error) {
-		ebRS('');
-	});
-	// 
-	/////////// --------- OPT 2  USING epnSmpl (no geo req'd) -------------
-	// 	epnSmPl(
-	// 		div, // divId
-	// 		"5cea98c1acd3bc52fe30de5b"  // SmPl adId
-	// 	);
-	////////////
+	// v7 -  epnSmPl now (epn rss kaput)
+	epnSmPl(div, thsBlg_epn_epnSmPl, keywords);
 }
 
 function epnRs(gasID, country, kw, divId, cmpId, rand, numItems, rows, cols, itemTemplate) {
@@ -1139,11 +1100,11 @@ $(window).on("load", function() {
 			// console.log(kw);
 			if ($('.postbody h3 a').attr('href').match(/amazon\./)) {
 				kw = encodeURIComponent(kw.replace(/, /g, " ").trim());
-				// epnFromLbls(kw, "ebRSBtm_1");
+				epnFromLbls(kw, "ebRSBtm_1");
 				amzFromLbls(kw, thsBlg_amz.def_cat_2, "grid", "ebRSBtm_2");
 			} else {
 				amzFromLbls(kw, thsBlg_amz.def_cat_2, "grid", "ebRSBtm_2");
-				// epnFromLbls(kw, "ebRSBtm_2");
+				epnFromLbls(kw, "ebRSBtm_2");
 			}
 			// ---/AFF FROM LABLES
 			$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js").done(function() {
