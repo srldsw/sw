@@ -1063,7 +1063,7 @@ $(window).on("load", function() {
 				epnFromLbls(kw, "ebRSBtm_1");
 				amzFromLbls(kw, thsBlg_amz.def_cat_2, "grid", "ebRSBtm_2");
 			} else {
-				amzFromLbls(kw, thsBlg_amz.def_cat_2, "grid", "ebRSBtm_2");
+				amzFromLbls(kw, thsBlg_amz.def_cat_2, "grid", "ebRSBtm_1");
 				epnFromLbls(kw, "ebRSBtm_2");
 			}
 			// ---/AFF FROM LABLES
