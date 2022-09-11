@@ -33,6 +33,8 @@ thsBlg_dyn_catcher = "www.sitesworld.com/common/x/str/c/";
 ThsBlg_aT_cd = '';
 thsBlg_img_cdn = "www.sitesworld.com/common/x/str/i/";
 thsBlg_gasJsnPrx = "AKfycbxlgCraLy0Gg6SffuTNQ4F_hrs9duFuw_e1QNfU5jZAWUYqD_IY";
+thsBlg_reportProductForm = '1FAIpQLSeRVM6S7BJwvaNHECffT3YatkVR0Q9263C7aAzVvka9eRuM2Q'; // gd form
+
 // 
 // 
 // 
@@ -1060,7 +1062,7 @@ $(window).on("load", function() {
 				"amzSB_T");
 			// }
 			// ---AFF FROM LABLES
-			$('.blogger-labels').before('<hr/><h4>If you liked it, ALSO TRY:</h4><hr/><div  class="ldng_16_3x"  id="ebRSBtm_1"></div><hr/><div class="ldng_16_3x"  id="ebRSBtm_2"></div><hr/>');
+			$('.blogger-labels').before('<hr/><div style="text-align:right;margin: -18px 0;"><a style="font: normal 12px/1em Arial;" rel="nofollow" href="https://docs.google.com/forms/d/e/' + thsBlg_reportProductForm + '/viewform?usp=sf_link"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Report this item</a></div><div style="clear:both;"></div><hr/><h4>If you liked it, ALSO TRY:</h4><hr/><div  class="ldng_16_3x"  id="ebRSBtm_1"></div><hr/><div class="ldng_16_3x"  id="ebRSBtm_2"></div><hr/>');
 			var kw = $('.blogger-labels').text().replace(/\s+/igm, " ").trim().replace(/(labels\:)/igm, "").trim();
 			// console.log(kw);
 			try {
