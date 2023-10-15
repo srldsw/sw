@@ -313,7 +313,12 @@ function toTitleCase(str) {
 	});
 }
 
-function asadRespId(prefix, postfix, divId, idTxt, slot, channel, orient, divWidth, divHeight) {
+
+//  2023-10-15 all local AS off
+
+function asadRespId() {}
+
+function _asadRespId(prefix, postfix, divId, idTxt, slot, channel, orient, divWidth, divHeight) {
 	if (bnndQry == "yes") {
 		return;
 	}
@@ -951,18 +956,18 @@ if (thsSiteTyp == "store") {
 	var ad_Channel = (ThsBlg_pg == 'mainpage') ? '2715870640' : '2715870640';
 	var lu_Channel = (ThsBlg_pg == 'mainpage') ? '3757221042' : '3757221042';
 	//// STORE BOTH MAINPAGE+ITEMPAGE
-	insertAfterHTML('cse_container', '<div id="asOnTop"></div>');
-	asadRespId(
-		'', // prefix
-		'', // postfix
-		"asOnTop", // div id
-		"xyz_asOnTop", // xyz_ + div id
-		ad_Id_resp, // slot
-		ad_Channel, // channel
-		'', // orient OR ""
-		'320px',
-		'100px'
-	);
+	// insertAfterHTML('cse_container', '<div id="asOnTop"></div>');
+	// asadRespId(
+	// 	'', // prefix
+	// 	'', // postfix
+	// 	"asOnTop", // div id
+	// 	"xyz_asOnTop", // xyz_ + div id
+	// 	ad_Id_resp, // slot
+	// 	ad_Channel, // channel
+	// 	'', // orient OR ""
+	// 	'320px',
+	// 	'100px'
+	// );
 	// 
 	//////////////////
 	//////////////////
