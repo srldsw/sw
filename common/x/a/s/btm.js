@@ -37,6 +37,11 @@ if (typeof thsSiteTyp === 'undefined') {
 	thsSiteTyp = "main_sitesworld";
 }
 // 
+
+// 2025-06-05 this is also in GTM!
+if (typeof as_on_this === 'undefined') {
+	as_on_this = "yes";
+}
 // 
 sw_countries = [{
 	u: "Afghanistan",
@@ -2085,7 +2090,7 @@ function gCSE(cseId, divId, phText, target) {
 		};
 
 		function myCSECallback() {
-			console.log('EXECUTED');
+			// console.log('EXECUTED');
 			// rmve "Cstm srch" txt frm gcse input
 			$('input.gsc-input').attr('placeholder', ' ' + placeholder);
 		}

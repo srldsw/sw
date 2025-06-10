@@ -1,4 +1,4 @@
-/// btm.js -- THIS IS FOR WWW
+/// btm.js -- script WWW //www.sitesworld.com/common/x/a/s/btm.js
 // 
 // === /DELAYED JQUERY LOAD (PUT IN BTM.JS)
 // 
@@ -1246,12 +1246,7 @@ if (swpg == "sw_country") {
 /* /vars */
 // 
 if (thsSiteTyp == "main_sitesworld") {
-	function asadPageLevel() {
-		var script = document.createElement("script");
-		script.innerHTML = ' (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "' + sw_as_cd + '", enable_page_level_ads: true }); ';
-		document.head.appendChild(script);
-	}
-	// asadPageLevel();
+ 
 	// 
 	// 
 }
@@ -1262,6 +1257,117 @@ if (thsSiteTyp == "main_sitesworld") {
 // 
 // 
 /* functions */
+//////////////// ALL ASADS
+function asadRespId(prefix, postfix, divId, idTxt, slot, channel, orient, divWidth, divHeight) {
+	// v12 
+	// orient: "a" etc or ["inarticle","layout key"] etc
+	// orient: ["matched","text","4","1"]
+	if (as_on_this == "no") {
+		return
+	};
+	if ((!document.getElementById(divId))
+		//
+		// || divId != "as_mppg_mtched" /////// TESTING ONLY!!! disable!
+		//
+	) {
+		// 
+	} else {
+		var a = "";
+		var b = "";
+		if (orient.constructor === Array) {
+			if (orient[0] == "inarticle" || orient[0] == "infeed") {
+				a = "fluid";
+				b = ' data-ad-layout-key="' + orient[1] + '" ';
+			};
+			if (orient[0] == "matched") {
+				a = "autorelaxed";
+				b = ' data-matched-content-ui-type="' + orient[1] + '" data-matched-content-rows-num="' + orient[2] + '" data-matched-content-columns-num="' + orient[3] + '" ';
+			};
+		};
+		if (orient == "link") {
+			a = "link"
+		};
+		if (orient == "matched") {
+			a = "autorelaxed"
+		};
+		if (orient == "a") {
+			a = "auto"
+		};
+		if (orient == "h") {
+			a = "horizontal"
+		};
+		if (orient == "v") {
+			a = "vertical"
+		};
+		if (orient == "r") {
+			a = "rectangle"
+		};
+		if (orient == "rh") {
+			a = "rectangle, horizontal"
+		};
+		if (orient == "rv") {
+			a = "rectangle, vertical"
+		};
+		// 
+		var divWidth = typeof divWidth !== 'undefined' ? divWidth : '100%';
+		var divHeight = typeof divHeight !== 'undefined' ? divHeight : '100%';
+		// 
+		try {
+			document.getElementById(divId).innerHTML = '' +
+				'<style type="text/css">' +
+				'.adslot_' + idTxt + ' { width: ' + divWidth + '; height:' + divHeight + '; }' +
+				'</style>' +
+				prefix +
+				'<span style="display:block;max-width:' + divWidth + ';max-height:' + divHeight + '">' +
+				' <ins class="adsbygoogle adslot_' + idTxt + '" ' +
+				' style="display:block" ' +
+				' data-ad-client="' + sw_as_cd + '" ' +
+				' data-ad-slot="' + slot + '" ' +
+				b +
+				' data-ad-format="' + a + '"></ins> ' +
+				'</span>' +
+				postfix +
+				'';
+			(adsbygoogle = window.adsbygoogle || []).push({
+					params: {
+						google_ad_channel: channel
+					}
+				});
+		} catch (e) {
+			return true;
+		}
+	}
+}
+
+function asadFixId(prefix, postfix, divId, width, height, slot, channel) {
+	//v3 (span not div)
+	if (as_on_this == "no") {
+		return
+	};
+	if ((!document.getElementById(divId))
+		//
+		// || divId != "asdf" /////// TESTING ONLY!!! disable!
+		//
+	) {
+		// 
+	} else {
+		document.getElementById(divId).innerHTML = '' +
+			prefix +
+			' <ins class="adsbygoogle" ' +
+			' style="display:inline-block;' +
+			' width:' + width + 'px;' +
+			' height:' + height + 'px" ' +
+			' data-ad-client="' + sw_as_cd + '" ' +
+			' data-ad-slot="' + slot + '"></ins>' +
+			postfix;
+		(adsbygoogle = window.adsbygoogle || []).push({
+				params: {
+					google_ad_channel: channel
+				}
+			});
+	}
+}
+////////// /ALL ASADS  
 function loadjs(filename) {
 	var fileref = document.createElement('script');
 	fileref.setAttribute("type", "text/javascript");
@@ -1444,166 +1550,6 @@ function epnSmPl(divId, adID, kw = "", categ = "", divWidth = 300, divHeight = d
 			});
 		} catch (e) {
 			console.log('no epnSmPl');
-		}
-	}
-}
-
-function asadFixClass(prefix, postfix, divClass, width, height, slot, channel) {
-	//v3 (span not div)
-	if (!document.getElementsByClassName(divClass)[0]) {
-		// 
-	} else {
-		document.getElementsByClassName(divClass)[0].innerHTML = '' +
-			prefix +
-			'<span class="ldng_16_3x"> <ins class="adsbygoogle" ' +
-			' style="display:inline-block;' +
-			' width:' + width + 'px;' +
-			' height:' + height + 'px" ' +
-			' data-ad-client="' + sw_as_cd + '" ' +
-			' data-ad-slot="' + slot + '"></ins> </span>' +
-			postfix;
-		(adsbygoogle = window.adsbygoogle || []).push({
-				params: {
-					google_ad_channel: channel
-				}
-			});
-	}
-}
-
-function asadFixId(prefix, postfix, divId, width, height, slot, channel) {
-	//v3 (span not div)
-	if (!document.getElementById(divId)) {
-		// 
-	} else {
-		document.getElementById(divId).innerHTML = '' +
-			prefix +
-			'<span class="ldng_16_3x"> <ins class="adsbygoogle" ' +
-			' style="display:inline-block;' +
-			' width:' + width + 'px;' +
-			' height:' + height + 'px" ' +
-			' data-ad-client="' + sw_as_cd + '" ' +
-			' data-ad-slot="' + slot + '"></ins> </span>' +
-			postfix;
-		(adsbygoogle = window.adsbygoogle || []).push({
-				params: {
-					google_ad_channel: channel
-				}
-			});
-	}
-}
-
-function asadRespId(prefix, postfix, divId, idTxt, slot, channel, orient, divWidth, divHeight) {
-	// v10 - bugfix
-	if (!document.getElementById(divId)) {
-		// 
-	} else {
-		var a = "";
-		if (orient == "link") {
-			a = "link"
-		};
-		if (orient == "matched") {
-			a = "autorelaxed"
-		};
-		if (orient == "a") {
-			a = "auto"
-		};
-		if (orient == "h") {
-			a = "horizontal"
-		};
-		if (orient == "v") {
-			a = "vertical"
-		};
-		if (orient == "r") {
-			a = "rectangle"
-		};
-		if (orient == "rh") {
-			a = "rectangle, horizontal"
-		};
-		if (orient == "rv") {
-			a = "rectangle, vertical"
-		};
-		var divWidth = typeof divWidth !== 'undefined' ? divWidth : '100%';
-		var divHeight = typeof divHeight !== 'undefined' ? divHeight : '100%';
-		try {
-			document.getElementById(divId).innerHTML = '' +
-				'<style type="text/css">' +
-				'.adslot_' + idTxt + ' { width: ' + divWidth + '; height:' + divHeight + '; }' +
-				'</style>' +
-				prefix +
-				'<span class="ldng_16_3x" style="display:block;max-width:' + divWidth + ';max-height:' + divHeight + '">' +
-				' <ins class="adsbygoogle adslot_' + idTxt + '" ' +
-				' style="display:block" ' +
-				' data-ad-client="' + sw_as_cd + '" ' +
-				' data-ad-slot="' + slot + '" ' +
-				' data-ad-format="' + a + '"></ins> ' +
-				'</span>' +
-				postfix +
-				'';
-			(adsbygoogle = window.adsbygoogle || []).push({
-					params: {
-						google_ad_channel: channel
-					}
-				});
-		} catch (e) {
-			return true;
-		}
-	}
-}
-
-function asadRespClass(prefix, postfix, divClass, idTxt, slot, channel, orient, divWidth, divHeight) {
-	// v10 - bugfix
-	if (!document.getElementsByClassName(divClass)[0]) {
-		// 
-	} else {
-		var a = "";
-		if (orient == "link") {
-			a = "link"
-		};
-		if (orient == "matched") {
-			a = "autorelaxed"
-		};
-		if (orient == "a") {
-			a = "auto"
-		};
-		if (orient == "h") {
-			a = "horizontal"
-		};
-		if (orient == "v") {
-			a = "vertical"
-		};
-		if (orient == "r") {
-			a = "rectangle"
-		};
-		if (orient == "rh") {
-			a = "rectangle, horizontal"
-		};
-		if (orient == "rv") {
-			a = "rectangle, vertical"
-		};
-		var divWidth = typeof divWidth !== 'undefined' ? divWidth : '100%';
-		var divHeight = typeof divHeight !== 'undefined' ? divHeight : '100%';
-		try {
-			document.getElementsByClassName(divClass)[0].innerHTML = '' +
-				'<style type="text/css">' +
-				'.adslot_' + idTxt + ' { width: ' + divWidth + '; height:' + divHeight + '; }' +
-				'</style>' +
-				prefix +
-				'<span class="ldng_16_3x" style="display:block;max-width:' + divWidth + ';max-height:' + divHeight + '">' +
-				' <ins class="adsbygoogle adslot_' + idTxt + '" ' +
-				' style="display:block" ' +
-				' data-ad-client="' + sw_as_cd + '" ' +
-				' data-ad-slot="' + slot + '" ' +
-				' data-ad-format="' + a + '"></ins> ' +
-				'</span>' +
-				postfix +
-				'';
-			(adsbygoogle = window.adsbygoogle || []).push({
-					params: {
-						google_ad_channel: channel
-					}
-				});
-		} catch (e) {
-			return true;
 		}
 	}
 }
@@ -2294,88 +2240,22 @@ if (thsSiteTyp == "main_sitesworld") {
 	// 
 	//////////// ALL MOB LU IN HEADER (IF togglrs() IN USE ) //////////////
 	if (detectmob()) {
-		//////// ALL MOB LU 1/
-		// appendHTMLByClass('chtbltdle', '<div style="margin:0 0 5px;min-width:200px;min-height:15px;max-height:100px;background-color:#1F1F82;"><div id="as_lu_hdr_all"></div></div>');
-		// asadRespId(
-		// 	'<div>',
-		// 	'</div> ',
-		// 	"as_lu_hdr_all",
-		// 	"xyz_as_lu_hdr_all",
-		// 	"6899682647", /// blue bg
-		// 	"3757221042", // sw_all_lu_T 
-		// 	"link"
-		// );
+ 
 	}
 	// 
 	// =========== TOP HOME PGS ===============
 	// 
 	if (swpg == "sw_top_pgs_index" || swpg == "sw_top_pgs_maps") {
-		if (!detectmob()) {
-			// console.log('hi')
-			/////// HOMPAGE DTP AD 1/1
-			// asadRespId(
-			// 	'<div style="width:468px;height:60px;margin:10px auto;padding:5px 0; border-top:dotted 1px #aaa;border-bottom:dotted 1px #aaa;">',
-			// 	'</div> ',
-			// 	"as_main_T",
-			// 	"xyz_as_main_T",
-			// 	"6312455445",
-			// 	"4953017845", // sw_main_a_T
-			// 	"rh"
-			// );
-			/////// HOMPAGE DTP LU 1/1
-			// asadFixId(
-			// 	' ',
-			// 	' ',
-			// 	"as_main_B",
-			// 	"468",
-			// 	"15",
-			// 	"8627424943",
-			// 	"9016347043" // sw_main_lu_T
-			// );
-			/// use this now...
-			asadRespId(
-				'<div style="max-width:90%;text-align:center;">',
-				'</div>',
-				"as_main_B",
-				"xyz_as_main_B",
-				"4928296247", /// 
-				"9016347043", // sw_main_lu_T 
-				"link"
-			);
-		}
+		if (!detectmob()) {}
 	}
 	// 
 	// ========= TIME INDEXES ==============
 	// 
 	if (swpg == "sw_top_pgs_time" || swpg == "sw_time_indexes") {
 		// === DTP ===
-		if (!detectmob()) {
-			// TIME DTP AD 1/1
-			// asadRespClass(
-			// 	' <div style="width:300px;height:250px"> ',
-			// 	' </div> ',
-			// 	"as_tm_TR",
-			// 	"xyz_as_tm_TR",
-			// 	"6312455445",
-			// 	"1151106538", // sw_tm_indxs_T
-			// 	"r"
-			// );
-		}
+		if (!detectmob()) {}
 		// === MOB ===
-		if (detectmob()) {
-			////// TIME MOB AD 1/1
-			// insertAfterHTML('tmcountries', '<div id="as_tidx_1"></div>');
-			// // 
-			// asadRespId(
-			// 	'<div style="margin:20px 10px 0 10px">',
-			// 	'</div>',
-			// 	"as_tidx_1",
-			// 	"xyz_as_tidx_1",
-			// 	"6312455445",
-			// 	"1151106538", // sw_tm_indxs_T
-			// 	"h"
-			// );
-		}
+		if (detectmob()) {}
 		// === DTP+MOB ===
 	}
 	// 
@@ -2398,102 +2278,19 @@ if (thsSiteTyp == "main_sitesworld") {
 			// aff is now jq (see cdStyle )
 			///////// DTP LU 2/2
 			appendHTMLByClass('tmtd1', '<div id="tim_lu_1"></div>');
-			asadRespId(
-				'<div style="width:100%;margin:10px 0;height:100px;">',
-				'</div> ',
-				"tim_lu_1",
-				"xyz_tim_lu_1",
-				"4928296247",
-				"5928739844", // sw_tm_pgs_lu_1
-				"link"
-			);
 			// 
 		}
 		// === MOB ===
 		if (detectmob()) {
-			if (swpg == "sw_time_pages") {
-				writeInnerHTML('as_tm_pg_R',
-					'<div id="clearer"></div>' +
-					'<div id="asad_receiver"></div>' +
-					'<div id="clearer"></div>' +
-					'<div id="fbad_receiver"></div>' +
-					'<div id="clearer"></div>' +
-					'');
-				// dsbld 4 nw (AS lo-perf-on-mob-anywy)
-				// reinstated... 
-				// MOB AD 1/1 
-				// asadRespId(
-				// 	'<div style="width:300px;height:250px;margin:1vh auto">',
-				// 	'</div> ',
-				// 	"asad_receiver",
-				// 	"xyz_asad_receiver",
-				// 	"6312455445",
-				// 	"3831638056", // // sw_tm_pgs_B
-				// 	"r"
-				// );
-			}
+			if (swpg == "sw_time_pages") {}
 		} // detectmob()
 	}
 	//
 	//  ============= COUNTRY  ================
 	// 
 	if (swpg == "sw_country") {
-		if (!detectmob()) {
-			///// DTP AD 1/3
-			// asadRespClass(
-			// 	' <div style="width:336px;height:280px"> ',
-			// 	' </div> ',
-			// 	"as_cntry_M",
-			// 	"xyz_as_cntry_M",
-			// 	"6312455445",
-			// 	"9073472328", // sw_cntry_a_T
-			// 	"r"
-			// );
-			///// DTP AD 2/3
-			// asadRespClass(
-			// 	' <div style="width:728px;height:90px"> ',
-			// 	' </div> ',
-			// 	"js_bw_div_1",
-			// 	"xyz_js_bw_div_1",
-			// 	"6312455445",
-			// 	"5751020210", // sw_cntry_a_M
-			// 	"rh"
-			// );
-			//////// DTP AD 3/3
-			// asadRespClass(
-			// 	' <div style="width:728px;height:90px"> ',
-			// 	' </div> ',
-			// 	"js_bw_div_3",
-			// 	"xyz_js_bw_div_3",
-			// 	"6312455445",
-			// 	"6315808007", // sw_cntry_a_B
-			// 	"rh"
-			// );
-		}
-		if (detectmob()) {
-			////// MOB AD 1/3
-			// insertBeforeHTML('sidebar', '<div id="as_b4_sb"></div>');
-			// asadRespId(
-			// 	' <div style="width:90%;min-height:100px;display:table;margin:0 auto;"> ',
-			// 	'</div> ',
-			// 	"as_b4_sb",
-			// 	"xyz_as_b4_sb",
-			// 	"6312455445",
-			// 	"9073472328", // sw_cntry_a_T
-			// 	"r"
-			// );
-			////// MOB AD 2/3
-			////// MOB AD 3/3
-			// asadRespClass(
-			// 	' <div style="width:90%;min-height:100px;display:table;margin:0 auto;"> ',
-			// 	'</div> ',
-			// 	"js_bw_div_2",
-			// 	"xyz_js_bw_div_2",
-			// 	"6312455445",
-			// 	"6315808007", // sw_cntry_a_B
-			// 	"r"
-			// );
-		}
+		if (!detectmob()) {}
+		if (detectmob()) {}
 		///////////////////// country AMZ AFF VIA /c/ /////////
 		$('#amcont').prepend(' <div id="ebRSBtm_2"></div>');
 		var bb = 'books about ' + sw_c_na;
@@ -2512,19 +2309,7 @@ if (thsSiteTyp == "main_sitesworld") {
 	// 
 	// ANTHEMS
 	// 
-	if (swpg == "sw_anthems") {
-		/// DTP AD 1/1
-		/// MOB AD 1/1
-		// asadRespId(
-		// 	' <div style="max-width:90vw;min-height:100px;margin:5px auto 15px auto;"> ',
-		// 	'</div> ',
-		// 	"as_anthem_B",
-		// 	"xyz_as_anthem_B",
-		// 	"6312455445",
-		// 	"1710393046", // sw_anth_a_T
-		// 	"r"
-		// );
-	}
+	if (swpg == "sw_anthems") {}
 	// 
 	// FLAGS
 	// 
@@ -2544,18 +2329,8 @@ if (thsSiteTyp == "main_sitesworld") {
 	// 
 	if (swpg == "sw_mappage") {
 		if (!detectmob()) {
-			//// DTP LU 1/1
-			asadFixClass(
-				' ',
-				' ',
-				"asluinner",
-				"468",
-				"15",
-				"8627424943",
-				"7231663647" // sw_mp_lu_T
-			);
-			// asadRespClass not qte wrking, keep fix non-resp
-		}
+ 
+ 		}
 		if (detectmob()) {}
 	}
 	//
@@ -2566,38 +2341,8 @@ if (thsSiteTyp == "main_sitesworld") {
 	//////////// ALL DTP LU IN HEADER //////////////
 	if (!detectmob()) { // mob has togglr linku
 		// 
-		// 
-		// if (window.innerWidth > 905) {
-		// 	prependHTML(
-		// 		'top_header',
-		// 		'<div style="background-color: #1f1f82; bottom: 5px; height: 30px; left: 290px; outline: 10px solid #1f1f82; overflow: hidden; position: absolute; width: 468px;"><div style="height:30px;display:table-cell;vertical-align:middle;"><div id="as_hdr"></div></div></div>'
-		// 	);
-		// 	//// DTP LU 1/xx ////////
-		// 	asadFixId(
-		// 		'<div> ',
-		// 		'<div> ',
-		// 		"as_hdr",
-		// 		"468",
-		// 		"15",
-		// 		"5756482511", ////// reverse colors (as_lu_reverse)
-		// 		"3757221042" // sw_all_lu_T
-		// 	);
-		// }
-		// 
 	}
-	if (!detectmob()) {
-		// ldng_16_3x <style> appnded to head above (is 3x ldng gif)
-		// insertBeforeHTML('top_mother', '<div style="width:500px;margin:5px auto;"><div id="as_dtp_lu_T"></div></div>');
-		// asadRespId(
-		// 	'<div>',
-		// 	'</div> ',
-		// 	"as_dtp_lu_T",
-		// 	"abc_as_dtp_lu_T",
-		// 	"4928296247",
-		// 	"3757221042", // 
-		// 	"link"
-		// );
-	}
+	if (!detectmob()) {}
 	// 
 	// 
 	// =============== /END AS/AFF ==================
@@ -2844,15 +2589,13 @@ if (typeof jQuery == 'undefined') {} else {
 			// 
 			// 
 			///////// country ////////////
-
 			////// epn aff 1/1
 			if (swpg == "sw_country") {
 				epnSmPl(
-				"js_bw_div_3", // divId
-				"5eac29295da2926691a52a2b", // SmPl adId
-				sw_c_ur
-			);
-
+					"js_bw_div_3", // divId
+					"5eac29295da2926691a52a2b", // SmPl adId
+					sw_c_ur
+				);
 			}
 			/////////////// time all ///////////
 			// disclo
